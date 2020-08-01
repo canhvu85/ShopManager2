@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-4 mx-auto">
+          <div class="card-group" style="margin-top: 50%;">
+              <div class="card p-4">
+                  <div class="card-body">
+                      <form name="form">
+                        <h2 class="text-center">Sign in</h2>
+                        <div class="text-center social-btn">
+                          <button (click)="signInWithFB()" class="btn btn-primary btn-block">
+                            <i class="fab fa-facebook"></i> Sign in with <b>Facebook</b>
+                          </button>
+
+                          <button (click)="signInWithGoogle()" class="btn btn-danger btn-block">
+                            <i class="fab fa-google"></i> Sign in with <b>Google</b>
+                          </button>
+
+                          <!-- <button (click)="signOut()" class="btn btn-danger btn-block">
+                            Sign out
+                          </button> -->
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>

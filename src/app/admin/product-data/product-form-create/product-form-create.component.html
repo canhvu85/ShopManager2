@@ -1,0 +1,152 @@
+<form
+  class="emp-forms"
+  #productForms="ngForm"
+  (ngSubmit)="onSubmit(productForms)"
+>
+  <input
+    type="hidden"
+    name="id"
+    #id="ngModel"
+    [(ngModel)]="productService.SelectedProduct.id"
+  />
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <input
+        class="form-control"
+        name="name"
+        #name="ngModel"
+        [(ngModel)]="productService.SelectedProduct.name"
+        required
+        minlength="3"
+        maxlength="40"
+        placeholder="Enter Name Product"
+      />
+      <div class="validation-error" *ngIf="name.touched && !name.valid">
+        <div *ngIf="name.errors.required">
+          Tên sản phẩm không được đễ trống
+        </div>
+        <div *ngIf="name.errors.minlength">
+          Tên sản phẩm ít nhất
+          {{ name.errors.minlength.requiredLength }} ký tự
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-3">
+      <input
+        type="text"
+        required
+        maxlength="40"
+        class="form-control"
+        name="unit"
+        #unit="ngModel"
+        [(ngModel)]="productService.SelectedProduct.unit"
+        placeholder="Enter Unit Product"
+      />
+      <div class="validation-error" *ngIf="unit.touched && !unit.valid">
+        <div *ngIf="unit.errors.required">
+          Đơn vị không được đễ trống
+        </div>
+        <div *ngIf="unit.errors.pattern">
+          Unit Product is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        name="mass"
+        #mass="ngModel"
+        [(ngModel)]="productService.SelectedProduct.mass"
+        placeholder="Nhập khối lượng sản phẩm"
+        pattern="^[0-9]*$"
+        required
+      />
+      <div class="validation-error" *ngIf="mass.touched && !mass.valid">
+        <div *ngIf="mass.errors.required">
+          Khối lượng không được đễ trống
+        </div>
+
+        <div *ngIf="mass.errors.pattern">
+          Khối lượng phải là kiểu số
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <input
+        type="text"
+        class="form-control"
+        name="company"
+        required
+        #company="ngModel"
+        [(ngModel)]="productService.SelectedProduct.company"
+        placeholder="Enter Company Product"
+        change="() =>{productService.SelectedProduct.company = this.value}"
+      />
+      <div class="validation-error" *ngIf="company.touched && !company.valid">
+        <div *ngIf="company.errors.required">
+          Công ty không được đễ trống
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <select
+        name="categoryId"
+        #categoryId="ngModel"
+        [(ngModel)]="productService.SelectedProduct.categoryId"
+        class="form-control"
+        id="exampleFormControlSelect1"
+        (change)="onChange($event)"
+      >
+        <option *ngFor="let type of typeService.TypeList" [value]="type.id">
+          {{ type.name }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="filename">
+        <img
+          *ngIf="boolFile"
+          [src]="fileSource"
+          style="width: 100px; height: 100px; cursor: pointer;"
+        />
+        <img
+          *ngIf="!boolFile"
+          [src]="
+            'https://localhost:5001/uploads/products/' +productService.SelectedProduct.id+'/'+
+            productService.SelectedProduct.images
+          "
+          onError="this.src='https://localhost:5001/uploads/default.png'"
+          style="width: 100px; height: 100px; cursor: pointer;"
+        />
+      </label>
+      <input
+        id="filename"
+        style="display: none;"
+        type="file"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+    <div class="form-group col-md-8">
+      <button
+        type="submit"
+        class="btn btn-success btn-lg btn-block"
+        style="background-color: rgb(83, 110, 251); border: rgb(83, 110, 251);"
+      >
+        Submit
+      </button>
+    </div>
+    <div class="form-group col-md-4">
+      <button
+        *ngIf="productService.buttonCreate"
+        class="btn btn-danger btn-lg btn-block"
+        (click)="productService.resetButton()"
+        (click)="productService.buttonCreate = false"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</form>
+

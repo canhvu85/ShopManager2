@@ -1,0 +1,105 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<h1 style="color:rgb(83, 110, 251);">Nhập Hàng</h1>
+<form class="emp-forms" #importProductForm="ngForm" (ngSubmit)="onSubmit(importProductForm)">
+  <input type="hidden" name="id" #id="ngModel" [(ngModel)]="importProductService.SelectedImportProduct.id" />
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <select name="product.id" #categoryId="ngModel"
+        [(ngModel)]="importProductService.SelectedImportProductDetail.product.id" class="form-control"
+        id="exampleFormControlSelect1" (change)="onChange($event)">
+        <option *ngFor="let product of productService.Productlist" [value]="product.id">
+          {{ product.name }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <input type="text" required maxlength="40" class="form-control" name="quantity" #quantity="ngModel"
+        [(ngModel)]="importProductService.SelectedImportProductDetail.quantity" placeholder="Nhập Số Lượng" />
+      <div class="validation-error" *ngIf="quantity.touched && !quantity.valid">
+        <div *ngIf="quantity.errors.required">
+          Đơn vị không được đễ trống
+        </div>
+        <div *ngIf="quantity.errors.pattern">
+          Unit Product is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-2">
+      <input type="text" class="form-control" name="priceImport" #priceImport="ngModel"
+        [(ngModel)]="importProductService.SelectedImportProductDetail.priceImport" placeholder="Giá Nhập"
+        pattern="^[0-9]*$" required />
+      <div class="validation-error" *ngIf="priceImport.touched && !priceImport.valid">
+        <div *ngIf="priceImport.errors.required">
+          Khối lượng không được đễ trống
+        </div>
+
+        <div *ngIf="priceImport.errors.pattern">
+          Khối lượng phải là kiểu số
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-2">
+      <input type="text" class="form-control" name="priceRetail" #priceRetail="ngModel"
+        [(ngModel)]="importProductService.SelectedImportProductDetail.priceRetail" placeholder="Giá Bán Lẻ"
+        pattern="^[0-9]*$" required />
+      <div class="validation-error" *ngIf="priceRetail.touched && !priceRetail.valid">
+        <div *ngIf="priceRetail.errors.required">
+          Giá Bán Lẻ không được đễ trống
+        </div>
+
+        <div *ngIf="priceRetail.errors.pattern">
+          Giá Bán Lẻ phải là kiểu số
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-3">
+      <button type="submit" class="btn btn-success btn-lg btn-block"
+        style="background-color: rgb(83, 110, 251); border: rgb(83, 110, 251); height: 37px; padding-top:5px">
+        Thêm vào đơn nhập
+      </button>
+    </div>
+  </div>
+</form>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>
+        Tên Sản Phẩm
+      </th>
+      <th>
+        Số Lương Nhâp
+      </th>
+      <th>
+        Giá Nh Lẻ
+      </th>
+      <th>
+        Giá Bán Sỉ
+      </th>
+      <th>
+        Tổng Tiền
+      </th>
+      <th>
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let importDetail of importProductService.SelectedImportProduct.ImportProductDetails; let index = index">
+      <td>{{importDetail.product.name}}</td>
+      <td>{{importDetail.quantity}}</td>
+      <td>{{importDetail.priceImport}}</td>
+      <td>{{importDetail.priceRetail}}</td>
+      <td>{{importDetail.total}}</td>
+      <td>
+        <a class="btn text-info" (click)="editImportProduct(importDetail,index)"><i class="fa fa-edit"></i></a>
+        <a class="btn text-danger" mwlConfirmationPopover [popoverTitle]="'Delete Product'"
+          [popoverMessage]="'Bạn có muốn xoá sản phẩm này không?'" placement="left"
+          (confirm)="confirmClicked = deleteImportProduct(index)" (cancel)="cancelClicked = true"><i
+            class="fa fa-trash"></i></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

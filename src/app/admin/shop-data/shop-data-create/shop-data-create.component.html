@@ -1,0 +1,99 @@
+<form
+  class="emp-forms"
+  #shopForms="ngForm"
+  (ngSubmit)="onSubmit(shopForms)"
+>
+  <!-- <input
+    type="hidden"
+    name="email"
+    #email="ngModel"
+    [(ngModel)]="shopService.SelectedShop.email"
+  /> -->
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <input
+        class="form-control"
+        name="shopName"
+        #shopName="ngModel"
+        [(ngModel)]="shopService.SelectedShop.shopName"
+        required
+        minlength="3"
+        maxlength="50"
+        placeholder="Enter Name Shop"
+      />
+      <div class="validation-error" *ngIf="shopName.touched && !shopName.valid">
+        <div *ngIf="shopName.errors.required">
+          Tên shop không được đễ trống
+        </div>
+        <div *ngIf="shopName.errors.minlength">
+          Tên shop ít nhất
+          {{ shopName.errors.minlength.requiredLength }} ký tự
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-3">
+      <input
+        type="text"
+        required
+        maxlength="100"
+        class="form-control"
+        name="address"
+        #address="ngModel"
+        [(ngModel)]="shopService.SelectedShop.address"
+        placeholder="Nhập địa chỉ shop"
+      />
+      <div class="validation-error" *ngIf="address.touched && !address.valid">
+        <div *ngIf="address.errors.required">
+          Địa chỉ không được đễ trống
+        </div>
+        <div *ngIf="address.errors.pattern">
+          Unit Product is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        name="phone"
+        #phone="ngModel"
+        [(ngModel)]="shopService.SelectedShop.phone"
+        placeholder="Nhập số điện thoại"
+        pattern="^[0-9]*$"
+        required
+      />
+      <div class="validation-error" *ngIf="phone.touched && !phone.valid">
+        <div *ngIf="phone.errors.required">
+          Số điện thoại không được đễ trống
+        </div>
+
+        <div *ngIf="phone.errors.pattern">
+          Số điện thoại phải là kiểu số
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-8">
+      <button
+        type="submit"
+        class="btn btn-success btn-lg btn-block"
+        style="background-color: rgb(83, 110, 251); border: rgb(83, 110, 251);"
+      >
+        Submit
+      </button>
+    </div>
+    <div class="form-group col-md-4">
+      <button
+        *ngIf="shopService.buttonCreate"
+        class="btn btn-danger btn-lg btn-block"
+        (click)="shopService.resetButton()"
+        (click)="shopService.buttonCreate = false"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</form>
+
+

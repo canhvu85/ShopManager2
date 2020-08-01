@@ -1,0 +1,32 @@
+
+<form name="form">
+  <div class="text-center social-btn">
+    <button (click)="logout()" class="btn btn-danger btn-block">
+      Sign out
+    </button>
+  </div>
+</form>
+
+<div class="container-fluid">
+  <br />
+  <br />
+  <header>
+    <h1>Product Manager</h1>
+  </header>
+
+  <button
+    class="btn btn-success"
+    style="background-color: rgb(83, 110, 251); border: rgb(83, 110, 251);"
+    *ngIf="!productService.buttonCreate"
+    (click)="productService.buttonCreate = true"
+  >
+    + Create
+  </button>
+
+  <app-product-form-create
+    *ngIf="productService.buttonCreate"
+  ></app-product-form-create>
+  <app-product-list></app-product-list>
+
+  <!-- <app-product-form-create></app-product-form-create> -->
+</div>

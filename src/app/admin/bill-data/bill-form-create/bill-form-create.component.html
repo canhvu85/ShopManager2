@@ -1,0 +1,131 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<h1 style="color:rgb(83, 110, 251);">Đơn Hàng</h1>
+<form class="emp-forms" #billForm="ngForm" (ngSubmit)="onSubmit(billForm)">
+  <input type="hidden" name="id" #id="ngModel" [(ngModel)]="billService.SelectedBill.id" />
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <select name="product.id" #categoryId="ngModel"
+        [(ngModel)]="product" class="form-control"
+        id="exampleFormControlSelect1" (change)="onChange($event)">
+        <option *ngFor="let product of productService.Productlist" [value]="product.id">
+          {{ product.name }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+      <select name="importProductDetail" #importProductDetailId="ngModel"
+        [(ngModel)]="billService.SelectedBillDetail.importProductDetailId" class="form-control"
+        id="cbbImportProductDetail" (change)="onChangeIPD($event)">
+        <option *ngFor="let importProductDetail of importProductService.importProductDetailList" [value]="importProductDetail.id">
+          {{ importProductDetail.priceRetail }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <input type="text" required maxlength="40" class="form-control" name="quantity" #quantity="ngModel"
+        [(ngModel)]="billService.SelectedBillDetail.quantity" placeholder="Nhập Số Lượng" />
+      <!-- <div class="validation-error" *ngIf="quantity.touched && !quantity.valid">
+        <div *ngIf="quantity.errors.required">
+          Đơn vị không được đễ trống
+        </div>
+        <div *ngIf="quantity.errors.pattern">
+          Unit Product is required
+        </div>
+      </div> -->
+    </div>
+    <div class="form-group col-md-2">
+      <input type="text" class="form-control" name="discount" #discount="ngModel"
+        [(ngModel)]="billService.SelectedBillDetail.discount" placeholder="Chiết Khấu"
+        pattern="^[0-9]*$" required />
+      <!-- <div class="validation-error" *ngIf="priceImport.touched && !priceImport.valid">
+        <div *ngIf="priceImport.errors.required">
+          Khối lượng không được đễ trống
+        </div>
+
+        <div *ngIf="priceImport.errors.pattern">
+          Khối lượng phải là kiểu số
+        </div>
+      </div> -->
+    </div>
+    <!-- <div class="form-group col-md-2">
+      <input type="text" class="form-control" name="priceRetail" #priceRetail="ngModel"
+        [(ngModel)]="billService.SelectedBillDetail.priceRetail" placeholder="Giá Bán Lẻ"
+        pattern="^[0-9]*$" required />
+      <div class="validation-error" *ngIf="priceRetail.touched && !priceRetail.valid">
+        <div *ngIf="priceRetail.errors.required">
+          Giá Bán Lẻ không được đễ trống
+        </div>
+
+        <div *ngIf="priceRetail.errors.pattern">
+          Giá Bán Lẻ phải là kiểu số
+        </div>
+      </div>
+    </div> -->
+
+    <div class="form-group col-md-3">
+      <button type="submit" class="btn btn-success btn-lg btn-block"
+        style="background-color: rgb(83, 110, 251); border: rgb(83, 110, 251); height: 37px; padding-top:5px">
+        Thêm vào đơn nhập
+      </button>
+    </div>
+  </div>
+</form>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>
+        Tên Sản Phẩm
+      </th>
+      <th>
+        Số Lương
+      </th>
+      <th>
+        Giá Bán
+      </th>
+      <th>
+        Chiết Khấu
+      </th>
+      <th>
+        Tổng Tiền
+      </th>
+      <th>
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let billDetail of billService.SelectedBill.BillDetails; let index = index">
+      <td>{{billDetail.importProductDetail.product.name}}</td>
+      <td>{{billDetail.quantity}}</td>
+      <td>{{billDetail.price}}</td>
+      <td>{{billDetail.discount}}</td>
+      <td>{{billDetail.total}}</td>
+      <td>
+        <a class="btn text-info" (click)="editImportProduct(billDetail,index)"><i class="fa fa-edit"></i></a>
+        <a class="btn text-danger" mwlConfirmationPopover [popoverTitle]="'Delete Product'"
+          [popoverMessage]="'Bạn có muốn xoá sản phẩm này không?'" placement="left"
+          (confirm)="confirmClicked = deleteImportProduct(index)" (cancel)="cancelClicked = true"><i
+            class="fa fa-trash"></i></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!-- <ol> -->
+  <!-- <li>
+    <mat-form-field>
+      <mat-label>What's your name?</mat-label>
+      <input matInput [(ngModel)]="name">
+    </mat-form-field>
+  </li> -->
+  <!-- <li> -->
+    <button mat-raised-button (click)="openDialog()">Create new Customer</button>
+  <!-- </li> -->
+  <!-- <li *ngIf="animal">
+    You chose: <i>{{animal}}</i>
+  </li> -->
+<!-- </ol> -->
+
